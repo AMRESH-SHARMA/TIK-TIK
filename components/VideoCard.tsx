@@ -14,7 +14,7 @@ interface IProps {
 }
 
 //IProps is a another way to use typescript, see  in NoResults component
-const VideoCard: NextPage<IProps>= ({ post  }) => {   
+const VideoCard: NextPage<IProps>= ({ post }) => {   
 //useState FOR HOVER,PLAY/PAUSE, SOUND/MUTE
   const [isHover, setIsHover] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -32,6 +32,12 @@ const VideoCard: NextPage<IProps>= ({ post  }) => {
     }
   };
   
+  useEffect(()=> {
+    if(videoRef?.current) {
+      videoRef.current.muted = isVideoMuted;
+    }
+  }, [isVideoMuted])
+
   return (
 //HEADER OF MAIN SECTION CONTAINS PROFILE IMAGE, USERNAME, CAPTION, TICKMARK(GOVERIFIED)
     <div className='flex flex-col border-b-2 border-gray-200 pb-6'>
@@ -77,7 +83,7 @@ const VideoCard: NextPage<IProps>= ({ post  }) => {
         onMouseLeave={() => setIsHover(false)}
         className='rounded-3xl'
         >
-        <Link href={`/`}>
+        <Link href={`/detail/${post._id}`}>
           <video
             loop
             ref={videoRef}
